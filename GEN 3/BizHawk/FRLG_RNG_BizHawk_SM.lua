@@ -1271,7 +1271,7 @@ end
 function isInitialSeedFound()
  local initial = read32Bit(initialSeedAddr)
 
- for i = 1, table.getn(botTargetInitialSeeds) do
+ for i = 1, #(botTargetInitialSeeds) do
   if initial == botTargetInitialSeeds[i] then
    return true
   end
