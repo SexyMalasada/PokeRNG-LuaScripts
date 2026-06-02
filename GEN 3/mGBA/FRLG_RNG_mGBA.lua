@@ -560,7 +560,13 @@ function showEncounterMissingSteps(buffer)
 
  local encounterRate = getBikeMod(16 * encounterRateBase)
  local encounterMissingSteps = encounterRateBuff == 0 and 0 or getEncounterMissingSteps(encounterRate, encounterRateBuff, encounterRateBase)
- buffer:print(string.format("Steps for wild encounter: %d\n\n\n", encounterMissingSteps))
+ buffer:print(string.format("Steps for wild encounter: %d\n", encounterMissingSteps))
+end
+
+function showStepCounter(buffer)
+ local stepCounterAddr = emu:read32(saveBlock1PointerAddr) + 0x309A
+ local stepCounter = 255 - emu:read8(stepCounterAddr)
+ buffer:print(string.format("Steps counter (Friendship/Egg cycles): %d\n\n\n", stepCounter))
 end
 
 function getPokemonIDs(addr)
@@ -654,6 +660,10 @@ function getPP(value)
  return PP1, PP2, PP3, PP4
 end
 
+function isEgg(addr)
+ return emu:read16(addr + 0x12) == 0x601
+end
+
 function strPadding(moveStr, maxLength)
  local spaces = ""
  local moveStrLength = string.len(moveStr)
@@ -691,6 +701,7 @@ function showInfo(pidAddr, buffer)
 
  local ivsAndAbilityValue = emu:read32(pidAddr + 0x20 + miscOffset + 0x4) ~ decryptionKey
  local speciesAndItemValue = emu:read32(pidAddr + 0x20 + growthOffset) ~ decryptionKey
+ local friendshipAndPPbonusesValue = emu:read32(pidAddr + 0x20 + growthOffset + 0x8) ~ decryptionKey
  local movesValue1 = emu:read32(pidAddr + 0x20 + attacksOffset) ~ decryptionKey
  local movesValue2 = emu:read32(pidAddr + 0x20 + attacksOffset + 0x4) ~ decryptionKey
  local PPValue = emu:read32(pidAddr + 0x20 + attacksOffset + 0x8) ~ decryptionKey
@@ -702,6 +713,8 @@ function showInfo(pidAddr, buffer)
  local itemIndex = speciesAndItemValue >> 16
  local itemName = itemNamesList[itemIndex + 1]
 
+ local friendship = (friendshipAndPPbonusesValue >> 8) & 0xFF
+
  local abilityNumber = (ivsAndAbilityValue >> 0x1F) + 1
  local abilityName = abilityNamesList[pokemonAbilities[(speciesDexNumber ~= nil and speciesDexNumber < 387) and speciesDexNumber or 1][abilityNumber]]
 
@@ -710,6 +723,7 @@ function showInfo(pidAddr, buffer)
  buffer:print(string.format("Nature: %s\n", natureNamesList[natureIndex + 1]))
  buffer:print(string.format("Ability: %s (%d)\n", abilityName == nil and "--" or abilityName, abilityNumber))
  showIVsAndHP(ivsAndAbilityValue, buffer)
+ buffer:print(string.format(isEgg(pidAddr) and "Egg cycles: %d\n" or "Friendship: %d\n", friendship))
  buffer:print(string.format("Held item: %s\n\n", itemName ~= nil and itemName or "--"))
  showMovesAndPP(movesValue1, movesValue2, PPValue, buffer)
 end
@@ -745,10 +759,6 @@ function showDayCareInfo(buffer)
  else
   buffer:print("Keep on steppin'\n\n\n")
  end
-end
-
-function isEgg(addr)
- return emu:read16(addr + 0x12) == 0x601
 end
 
 function showPartyEggInfo(buffer)
@@ -881,6 +891,7 @@ end
 function updateCaptureBuffer()
  showRngInfo(CaptureInfo)
  showEncounterMissingSteps(CaptureInfo)
+ showStepCounter(CaptureInfo)
  showInfo(enemyAddr, CaptureInfo)
  showTrainerIDs(CaptureInfo)
 end
