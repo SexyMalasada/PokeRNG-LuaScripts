@@ -11,7 +11,7 @@
 * Pokémon Info and Stats display for Speed-runners (commonly referred to as the 'Rainbow' lua)
 
 The main scripts for each game provided in the respective emulator folders have various modes you can cycle through, showcasing the most varied information for all kinds of RNG. The modes are titled appropriately depending on the type of RNG they are aimed at
-* Edited versions of these scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96 - **They require a 2x Window size to display properly!** The original ones are still included in a folder named `Real96 OG Scripts`. 
+* Edited versions of the scripts by SexyMalasada with the suffix `_SM` are provided which have a better layout than the originals by Real96 - **They require a 2x Window size to display properly!** The original ones can be obtained from [Real96's original repo](https://github.com/Real96/PokeLua). 
 * These pictures show the differences in the layouts for [DeSmuMe](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%205/DeSmuMe/G5DesmumeLayout.png) &amp; [Bizhawk](https://github.com/SexyMalasada/PokeRNG-LuaScripts/blob/main/GEN%205/BizHawk/G5BizhawkLayout.png)
 * An alternative (older) Pokémon Stats view script is also included (launched by opening the non-extension file). These scripts are for DeSmuMe only
 
