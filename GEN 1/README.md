@@ -16,6 +16,8 @@ These Bots simply hunt for any combo of DVs that makes the Pokémon shiny. They 
 
 To start any of the Bots simply place yourself at the required final screen (as referred below) and press SELECT
 
+Note: If you wish the bot to display DV values as it is resetting & discarding, you can enable this by editing the ``.lua`` files directly. Simply remove the ``--`` before ``print(atkDV.." "..defDV.." "..speDV.." "..spcDV)`` in line 220/228 of the VBA/Bizhawk lua script file, respectively.
+
 ## How To Navigate The Scripts
 
 You can cycle between different pages of the lua scripts and toggle some windows on or off by pressing the corresponding number in your numbers row/number keys (_not_ NumPad!).
@@ -23,7 +25,6 @@ You can cycle between different pages of the lua scripts and toggle some windows
 Example:
 * When you see arrows with numbers like ``<- 1-2 ->`` this means you can cycle left (1) or right (2) between pages of the lua script
 * When you see something like ``3 - Show Instructions`` it means you can toggle a specific info window to appear. Once you do, a different instruction to hide that window replaces it, and vice-versa
-
 
 ## Gift
 Pokémon is generated after the nickname prompt (Y/N)
